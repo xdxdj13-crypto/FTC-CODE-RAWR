@@ -9,6 +9,8 @@ public class Chassis {
     Motor rearRight;
     Motor frontLeft;
     Motor frontRight;
+
+    Motor CHECAESOPORFA;
     MecanumDrive drive;
 
     public Chassis(HardwareMap hardwareMap){
