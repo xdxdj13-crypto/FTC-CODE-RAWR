@@ -6,7 +6,7 @@ import com.seattlesolvers.solverslib.hardware.motors.Motor;
 
 public class Chassis {
     Motor rearLeft;
-    Motor rearRight;
+    Motor rearRight;//..
     Motor frontLeft;
     Motor frontRight;
 

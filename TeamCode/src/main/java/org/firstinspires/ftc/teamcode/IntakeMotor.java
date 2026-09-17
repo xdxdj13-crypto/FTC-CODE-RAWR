@@ -6,7 +6,7 @@ import com.seattlesolvers.solverslib.hardware.motors.Motor;
 public class IntakeMotor {
     public Motor intakeMotor;
 
-    public IntakeMotor(HardwareMap hardwareMap){
+    public IntakeMotor(HardwareMap hardwareMap){//..
 
         intakeMotor = new Motor(hardwareMap, "IntakeMotor");
         intakeMotor.setInverted(true);
