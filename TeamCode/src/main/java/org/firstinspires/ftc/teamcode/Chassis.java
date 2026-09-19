@@ -1,18 +1,20 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.seattlesolvers.solverslib.controller.PIDController;
+import com.seattlesolvers.solverslib.controller.wpilibcontroller.ElevatorFeedforward;
 import com.seattlesolvers.solverslib.drivebase.MecanumDrive;
+import com.seattlesolvers.solverslib.geometry.Translation2d;
 import com.seattlesolvers.solverslib.hardware.motors.Motor;
+import com.seattlesolvers.solverslib.kinematics.wpilibkinematics.ChassisSpeeds;
+import com.seattlesolvers.solverslib.kinematics.wpilibkinematics.MecanumDriveKinematics;
+import com.seattlesolvers.solverslib.kinematics.wpilibkinematics.MecanumDriveWheelSpeeds;
 
 public class Chassis {
     Motor rearLeft;
-    Motor rearRight;//..
+    Motor rearRight;
     Motor frontLeft;
     Motor frontRight;
-
-    Motor CHECAESOPORFA;
-    MecanumDrive drive;
-
     public Chassis(HardwareMap hardwareMap){
 
         frontLeft = new Motor(hardwareMap, "frontLeft");
@@ -31,11 +33,37 @@ public class Chassis {
         rearLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
 
 
-        drive = new MecanumDrive(frontLeft, frontRight, rearLeft, rearRight);
+        ChassisSpeeds speeds = new ChassisSpeeds(1.0, 0.0, 0.0);
+        MecanumDriveWheelSpeeds wheelSpeeds = MDKinematiks.toWheelSpeeds(speeds);
+
+    }
+    //MecanumDriveKinematics(frontLeftUbication, frontRightUbication,rearLeftUbication, rearRightUbication);
+    MecanumDriveKinematics MDKinematiks = new MecanumDriveKinematics(
+            new Translation2d( -1, 1),
+            new Translation2d( .5,1),
+            new Translation2d( -1, -1),
+            new Translation2d(.5,  -1)
+    );
+
+    public void drive(double x, double y, double z){
+        ChassisSpeeds chassis = new ChassisSpeeds(x,y,z);
+        MecanumDriveWheelSpeeds Speeds = MDKinematiks.toWheelSpeeds(chassis);
+        double frontLeft = Speeds.frontLeftMetersPerSecond;
+        double frontRight = Speeds.frontRightMetersPerSecond;
+        double rearLeft = Speeds.rearLeftMetersPerSecond;
+        double rearRight = Speeds.rearRightMetersPerSecond;
+
+        MecanumDriveWheelSpeeds wheelSpeeds =
+                new MecanumDriveWheelSpeeds(-15, 20, -13, 15);
+
+        ChassisSpeeds chassisSpeeds =
+                MDKinematiks.toChassisSpeeds(wheelSpeeds);
+
+        double forward = chassisSpeeds.vxMetersPerSecond;
+        double sideways = chassisSpeeds.vyMetersPerSecond;
+        double angular = chassisSpeeds.omegaRadiansPerSecond;
 
     }
 
-    public void driveRobotCentric(double x, double y, double turn){
-        drive.driveRobotCentric(x, y, turn);
-    }
+
 }

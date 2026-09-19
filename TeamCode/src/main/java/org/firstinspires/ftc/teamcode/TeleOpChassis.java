@@ -5,6 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp(name = "TeleOp Chassis", group = "TeleOp")
 public class TeleOpChassis extends LinearOpMode {//...
+    double x;
+    double y;
+    double turn;
 
     @Override
     public void runOpMode() {
@@ -19,12 +22,10 @@ public class TeleOpChassis extends LinearOpMode {//...
 
         while (opModeIsActive()) {
 
-            double y = -gamepad1.left_stick_y;
-            double x = gamepad1.left_stick_x;
-            double turn = gamepad1.right_stick_x;
 
 
-            chassis.driveRobotCentric(x, y, turn);
+
+            chassis.drive(x,y,turn);
 
 
             if (gamepad1.a){
@@ -39,5 +40,11 @@ public class TeleOpChassis extends LinearOpMode {//...
             telemetry.addData("Giro", turn);
             telemetry.update();
         }
+    }
+
+    public void UpdateControllers(){
+        x = gamepad1.left_stick_x;
+        y = -gamepad1.left_stick_y;
+        turn = gamepad1.right_stick_x;
     }
 }
