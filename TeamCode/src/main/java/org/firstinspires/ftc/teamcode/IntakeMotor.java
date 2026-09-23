@@ -16,10 +16,9 @@ public class IntakeMotor {
     public void Stop(){
         intakeMotor.stopMotor();
     }
-    public void MoveIntake(){
-        intakeMotor.set(1);
+    public void setPower(double power) {
+        intakeMotor.set(power);
     }
-
 
 
 }

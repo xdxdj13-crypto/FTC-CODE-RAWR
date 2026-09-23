@@ -62,7 +62,7 @@ public class Chassis {
 
         ChassisSpeeds chassis_speeds = fieldOriented ? ChassisSpeeds.toFieldRelativeSpeeds(
                 new ChassisSpeeds(x,y,z),
-                new Rotation2d(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES))
+                new Rotation2d(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS))
 
         ) : new ChassisSpeeds(x,y,z);
         MecanumDriveWheelSpeeds Speeds = MDKinematics.toWheelSpeeds(chassis_speeds);
