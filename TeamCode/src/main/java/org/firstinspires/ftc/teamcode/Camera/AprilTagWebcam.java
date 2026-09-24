@@ -66,7 +66,7 @@ public class AprilTagWebcam {
 
         public AprilTagDetection getTagSpecific(int id){
             for (AprilTagDetection detection : tagsDetected){
-                if(detection. == id){
+                if(detection.id == id){
                     return detection;
                 }
 
