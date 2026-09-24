@@ -1,8 +1,4 @@
-package org.firstinspires.ftc.teamcode;
-
-//import static rg.firstinspires.ftc.teamcode.Camera_Autonomous.cameraOrientation;
-//import static org.firstinspires.ftc.teamcode.RobotModes.Autos.Autonomous.Camera_Autonomous.cameraPosition;
-
+package org.firstinspires.ftc.teamcode.Camera;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -22,6 +18,7 @@ import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibra
 import org.firstinspires.ftc.teamcode.R;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.VisionProcessor;
+import org.firstinspires.ftc.vision.apriltag.AprilTagClusterDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -32,8 +29,7 @@ import org.opencv.core.Mat;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-public class Camera_Detection{
-    public Camera_Stream streamProcessor = new Camera_Stream();
+public class WEB_MEMIS {
     public AprilTagProcessor detectionProcessor;
     public VisionPortal visionPortal;
 
@@ -53,7 +49,7 @@ public class Camera_Detection{
     private final AtomicReference<Bitmap> lastFrame = new AtomicReference<>
             (Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565));
 
-    public Camera_Detection(HardwareMap hardwareMap) {
+    public WEB_MEMIS(HardwareMap hardwareMap) {
         // We create the builder with our desired building for the AprilTag processor
         // and the VisionPortal
         //Set the orientation of the camera in the robot
@@ -68,7 +64,7 @@ public class Camera_Detection{
                 .setCameraPose(cameraPosition, cameraOrientation)
                 //Specify the april Tags that we will use this competition
                 .setTagFamily(AprilTagProcessor.TagFamily.TAG_36h11)
-                .setTagLibrary(AprilTagGameDatabase.getCurrentGameTagLibrary())
+                .setTagLibrary(AprilTagGameDatabase.getDecodeTagLibrary())
                 //Specify the units we want to use for the output detections
                 .setOutputUnits(DistanceUnit.CM, AngleUnit.DEGREES)
                 .build();
@@ -78,10 +74,9 @@ public class Camera_Detection{
                 //Create our Camera using the hardwareMap
                 .setCamera(hardwareMap.get(WebcamName.class, "WebCam"))
                 //We assign the aprilTagProcessor and visionProcessor (Used for Stream)
-                .addProcessors(detectionProcessor, streamProcessor)
+                .addProcessors(detectionProcessor)
                 .setCameraResolution(new Size(1280,720))
                 .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
-                .setLiveViewContainerId(R.id.cameraMonitorViewId)
                 .setAutoStartStreamOnBuild(true)
                 .build();
     }
@@ -93,9 +88,10 @@ public class Camera_Detection{
             detection = false;
         } else {
             for (AprilTagDetection detection : detectionProcessor.getDetections()) {
+                AprilTagSingleDetection tag = (AprilTagSingleDetection) detection;
                 // We put the detection values into the detectionValues array
-                id = detection.id;
-
+                //id = detection.
+                id = tag.id;
                 //Getting xDistance, yDistance and zDistance
                 x = detection.ftcPose.x;
                 y = detection.ftcPose.y;
@@ -114,4 +110,5 @@ public class Camera_Detection{
             detection = true;
         }
     }
+
 }

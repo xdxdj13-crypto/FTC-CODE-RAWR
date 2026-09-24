@@ -2,18 +2,24 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name = "TeleOp Chassis", group = "TeleOp")
-public class TeleOpChassis extends OpMode {//...
+import org.firstinspires.ftc.teamcode.Camera.AprilTagWebcam;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp", group = "TeleOp")
+public class TeleOp extends OpMode {//...
     double x;
     double y;
     double turn;
     Chassis chassis;
     IntakeMotor intakeMotor;
 
+    AprilTagWebcam aprilTagWebcam = new AprilTagWebcam();
+
     @Override
     public void init() {
+
+        aprilTagWebcam.init(hardwareMap, telemetry);
         chassis = new Chassis(hardwareMap);
         intakeMotor = new IntakeMotor(hardwareMap);
 
@@ -21,6 +27,11 @@ public class TeleOpChassis extends OpMode {//...
 
     @Override
     public void loop() {
+        aprilTagWebcam.UpdateVisionPortal();
+        AprilTagDetection id20 = aprilTagWebcam.getTagSpecific(20);
+        telemetry.addData("id20 string", id20.toString());
+
+
         UpdateControllers();
         UpdateTelemetry();
 
