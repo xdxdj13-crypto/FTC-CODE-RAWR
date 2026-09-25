@@ -247,19 +247,26 @@ public class ConceptAprilTagLocalization extends LinearOpMode {
 
         // Step through the list of detections and display info for each one.
         for (AprilTagDetection detection : currentDetections) {
-            if (detection.metadata != null) {
-                telemetry.addLine(String.format("\n==== (ID %d) %s", detection.id, detection.metadata.name));
-                telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)",
-                        detection.robotPose.getPosition().x,
-                        detection.robotPose.getPosition().y,
-                        detection.robotPose.getPosition().z));
-                telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)",
-                        detection.robotPose.getOrientation().getPitch(AngleUnit.DEGREES),
-                        detection.robotPose.getOrientation().getRoll(AngleUnit.DEGREES),
-                        detection.robotPose.getOrientation().getYaw(AngleUnit.DEGREES)));
-            } else {
-                telemetry.addLine(String.format("\n==== (ID %d) Unknown", detection.id));
-                telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detection.center.x, detection.center.y));
+            if (detection instanceof org.firstinspires.ftc.vision.apriltag.AprilTagSingleDetection) {
+                org.firstinspires.ftc.vision.apriltag.AprilTagSingleDetection singleDet = (org.firstinspires.ftc.vision.apriltag.AprilTagSingleDetection) detection;
+                if (singleDet.metadata != null) {
+                    telemetry.addLine(String.format("\n==== (ID %d) %s", singleDet.id, singleDet.metadata.name));
+                    if (singleDet.robotPose != null) {
+                        telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)",
+                                singleDet.robotPose.getPosition().x,
+                                singleDet.robotPose.getPosition().y,
+                                singleDet.robotPose.getPosition().z));
+                        telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)",
+                                singleDet.robotPose.getOrientation().getPitch(AngleUnit.DEGREES),
+                                singleDet.robotPose.getOrientation().getRoll(AngleUnit.DEGREES),
+                                singleDet.robotPose.getOrientation().getYaw(AngleUnit.DEGREES)));
+                    }
+                } else {
+                    telemetry.addLine(String.format("\n==== (ID %d) Unknown", singleDet.id));
+                    if (singleDet.center != null) {
+                        telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", singleDet.center.x, singleDet.center.y));
+                    }
+                }
             }
         }   // end for() loop
 

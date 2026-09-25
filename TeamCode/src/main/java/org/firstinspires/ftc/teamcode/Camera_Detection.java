@@ -73,20 +73,34 @@ public class Camera_Detection{
                 .setOutputUnits(DistanceUnit.CM, AngleUnit.DEGREES)
                 .build();
 
-        //Initializing the visionPortal and its building process
-        visionPortal = new VisionPortal.Builder()
-                //Create our Camera using the hardwareMap
-                .setCamera(hardwareMap.get(WebcamName.class, "WebCam"))
-                //We assign the aprilTagProcessor and visionProcessor (Used for Stream)
-                .addProcessors(detectionProcessor, streamProcessor)
-                .setCameraResolution(new Size(1280,720))
-                .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
-                .setLiveViewContainerId(R.id.cameraMonitorViewId)
-                .setAutoStartStreamOnBuild(true)
-                .build();
+        WebcamName webcamName = null;
+        try {
+            webcamName = hardwareMap.get(WebcamName.class, "WebCam");
+        } catch (Exception e) {
+            try {
+                webcamName = hardwareMap.get(WebcamName.class, "webcam");
+            } catch (Exception e2) {
+                if (!hardwareMap.getAll(WebcamName.class).isEmpty()) {
+                    webcamName = hardwareMap.getAll(WebcamName.class).get(0);
+                }
+            }
+        }
+
+        if (webcamName != null) {
+            visionPortal = new VisionPortal.Builder()
+                    .setCamera(webcamName)
+                    .addProcessors(detectionProcessor, streamProcessor)
+                    .setCameraResolution(new Size(1280,720))
+                    .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
+                    .setAutoStartStreamOnBuild(true)
+                    .build();
+        }
     }
 
 
+
+    /* CODIGO ORIGINAL:
+    // .setTagLibrary(AprilTagGameDatabase.getBiobuzzTagLibrary())
 
     public void cameraDetection() {
         if (detectionProcessor.getDetections().isEmpty()) {
@@ -112,6 +126,45 @@ public class Camera_Detection{
                 elevation = detection.ftcPose.elevation;
             }
             detection = true;
+        }
+    }
+    */
+
+    public void cameraDetection() {
+        if (detectionProcessor.getDetections().isEmpty()) {
+            detection = false;
+        } else {
+            for (AprilTagDetection detectionItem : detectionProcessor.getDetections()) {
+                if (detectionItem instanceof AprilTagSingleDetection) {
+                    AprilTagSingleDetection singleDetection = (AprilTagSingleDetection) detectionItem;
+
+                    id = singleDetection.id;
+
+                    if (singleDetection.ftcPose != null) {
+                        // Getting xDistance, yDistance and zDistance
+                        x = singleDetection.ftcPose.x;
+                        y = singleDetection.ftcPose.y;
+                        z = singleDetection.ftcPose.z;
+
+                        // Getting Yaw, Pitch and Roll, used on angulation/orientation
+                        yaw = singleDetection.ftcPose.yaw;
+                        pitch = singleDetection.ftcPose.pitch;
+                        roll = singleDetection.ftcPose.roll;
+
+                        // Getting range, bearing and elevation
+                        range = singleDetection.ftcPose.range;
+                        bearing = singleDetection.ftcPose.bearing;
+                        elevation = singleDetection.ftcPose.elevation;
+                    }
+                }
+            }
+            detection = true;
+        }
+    }
+
+    public void stop() {
+        if (visionPortal != null) {
+            visionPortal.close();
         }
     }
 }

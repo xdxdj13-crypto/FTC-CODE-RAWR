@@ -69,45 +69,65 @@ public class WEB_MEMIS {
                 .setOutputUnits(DistanceUnit.CM, AngleUnit.DEGREES)
                 .build();
 
-        //Initializing the visionPortal and its building process
-        visionPortal = new VisionPortal.Builder()
-                //Create our Camera using the hardwareMap
-                .setCamera(hardwareMap.get(WebcamName.class, "WebCam"))
-                //We assign the aprilTagProcessor and visionProcessor (Used for Stream)
-                .addProcessors(detectionProcessor)
-                .setCameraResolution(new Size(1280,720))
-                .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
-                .setAutoStartStreamOnBuild(true)
-                .build();
+        WebcamName webcamName = null;
+        try {
+            webcamName = hardwareMap.get(WebcamName.class, "WebCam");
+        } catch (Exception e) {
+            try {
+                webcamName = hardwareMap.get(WebcamName.class, "webcam");
+            } catch (Exception e2) {
+                if (!hardwareMap.getAll(WebcamName.class).isEmpty()) {
+                    webcamName = hardwareMap.getAll(WebcamName.class).get(0);
+                }
+            }
+        }
+
+        if (webcamName != null) {
+            visionPortal = new VisionPortal.Builder()
+                    .setCamera(webcamName)
+                    .addProcessors(detectionProcessor)
+                    .setCameraResolution(new Size(1280,720))
+                    .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
+                    .setAutoStartStreamOnBuild(true)
+                    .build();
+        }
     }
 
 
 
     public void cameraDetection() {
-        if (detectionProcessor.getDetections().isEmpty()) {
+        if (detectionProcessor == null || detectionProcessor.getDetections().isEmpty()) {
             detection = false;
         } else {
-            for (AprilTagDetection detection : detectionProcessor.getDetections()) {
-                AprilTagSingleDetection tag = (AprilTagSingleDetection) detection;
-                // We put the detection values into the detectionValues array
-                //id = detection.
-                id = tag.id;
-                //Getting xDistance, yDistance and zDistance
-                x = detection.ftcPose.x;
-                y = detection.ftcPose.y;
-                z = detection.ftcPose.z;
+            boolean found = false;
+            for (AprilTagDetection detectionItem : detectionProcessor.getDetections()) {
+                if (detectionItem instanceof AprilTagSingleDetection) {
+                    AprilTagSingleDetection tag = (AprilTagSingleDetection) detectionItem;
+                    id = tag.id;
 
-                //Getting Yaw, Pitch and Roll, used on angulation/orientation
-                yaw = detection.ftcPose.yaw;
-                pitch = detection.ftcPose.pitch;
-                roll = detection.ftcPose.roll;
+                    if (tag.ftcPose != null) {
+                        x = tag.ftcPose.x;
+                        y = tag.ftcPose.y;
+                        z = tag.ftcPose.z;
 
-                //Getting range, bearing and elevation
-                range = detection.ftcPose.range;
-                bearing = detection.ftcPose.bearing;
-                elevation = detection.ftcPose.elevation;
+                        yaw = tag.ftcPose.yaw;
+                        pitch = tag.ftcPose.pitch;
+                        roll = tag.ftcPose.roll;
+
+                        range = tag.ftcPose.range;
+                        bearing = tag.ftcPose.bearing;
+                        elevation = tag.ftcPose.elevation;
+                    }
+                    found = true;
+                }
             }
-            detection = true;
+            detection = found;
+        }
+    }
+
+    public void stop() {
+        if (visionPortal != null) {
+            visionPortal.close();
         }
     }
 

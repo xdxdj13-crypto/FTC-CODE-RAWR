@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.Camera.AprilTagWebcam;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
+import java.util.List;
+
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp", group = "TeleOp")
 public class TeleOp extends OpMode {//...
     double x;
@@ -28,9 +30,20 @@ public class TeleOp extends OpMode {//...
     @Override
     public void loop() {
         aprilTagWebcam.UpdateVisionPortal();
-        AprilTagDetection id20 = aprilTagWebcam.getTagSpecific(20);
-        telemetry.addData("id20 string", id20.toString());
 
+        List<AprilTagDetection> detections = aprilTagWebcam.getTagsDetected();
+        telemetry.addData("Tags Detectados", detections.size());
+
+        for (AprilTagDetection detection : detections) {
+            aprilTagWebcam.detectionTelemetry(detection);
+        }
+
+        AprilTagDetection id20 = aprilTagWebcam.getTagSpecific(20);
+        if (id20 != null) {
+            telemetry.addData("Tag 20", "Detectado");
+        } else {
+            telemetry.addData("Tag 20", "No detectado");
+        }
 
         UpdateControllers();
         UpdateTelemetry();
@@ -73,5 +86,12 @@ public class TeleOp extends OpMode {//...
         telemetry.update();
 
 
+    }
+
+    @Override
+    public void stop() {
+        if (aprilTagWebcam != null) {
+            aprilTagWebcam.stop();
+        }
     }
 }
