@@ -15,6 +15,7 @@ public class TeleOp extends OpMode {//...
     double turn;
     Chassis chassis;
     IntakeMotor intakeMotor;
+    Shooter shooter;
 
     AprilTagWebcam aprilTagWebcam = new AprilTagWebcam();
 
@@ -24,6 +25,7 @@ public class TeleOp extends OpMode {//...
         aprilTagWebcam.init(hardwareMap, telemetry);
         chassis = new Chassis(hardwareMap);
         intakeMotor = new IntakeMotor(hardwareMap);
+        shooter = new Shooter(hardwareMap);
 
     }
 
@@ -68,6 +70,15 @@ public class TeleOp extends OpMode {//...
             intakeMotor.setPower(1);
         } else {
             intakeMotor.Stop();
+        }
+
+        // Control del Shooter
+        if (gamepad1.right_trigger > 0.1) {
+            shooter.setPower(gamepad1.right_trigger);
+        } else if (gamepad1.x) {
+            shooter.shoot();
+        } else {
+            shooter.stop();
         }
     }
 
