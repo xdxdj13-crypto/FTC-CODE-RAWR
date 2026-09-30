@@ -1,85 +1,65 @@
 package org.firstinspires.ftc.teamcode;
-
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-
-import org.firstinspires.ftc.teamcode.Camera.AprilTagWebcam;
-import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
-
-import java.util.List;
-
+import org.firstinspires.ftc.teamcode.Camera.AprilTag;
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp", group = "TeleOp")
-public class TeleOp extends OpMode {//...
+public class TeleOp extends OpMode {
     double x;
     double y;
     double turn;
-    Chassis chassis;
-    IntakeMotor intakeMotor;
-    Shooter shooter;
+//    Chassis chassis;
+//    IntakeMotor intakeMotor;
 
-    AprilTagWebcam aprilTagWebcam = new AprilTagWebcam();
+    AprilTag aprilTag;
 
     @Override
     public void init() {
 
-        aprilTagWebcam.init(hardwareMap, telemetry);
-        chassis = new Chassis(hardwareMap);
-        intakeMotor = new IntakeMotor(hardwareMap);
-        shooter = new Shooter(hardwareMap);
+        aprilTag = new AprilTag(hardwareMap);
+
+
+
+//        chassis = new Chassis(hardwareMap);
+//        intakeMotor = new IntakeMotor(hardwareMap);
+        FtcDashboard.getInstance().startCameraStream(aprilTag.visionPortal, 0);
 
     }
 
     @Override
     public void loop() {
-        aprilTagWebcam.UpdateVisionPortal();
 
-        List<AprilTagDetection> detections = aprilTagWebcam.getTagsDetected();
-        telemetry.addData("Tags Detectados", detections.size());
 
-        for (AprilTagDetection detection : detections) {
-            aprilTagWebcam.detectionTelemetry(detection);
-        }
+        aprilTag.cameraDetection();
 
-        AprilTagDetection id20 = aprilTagWebcam.getTagSpecific(20);
-        if (id20 != null) {
-            telemetry.addData("Tag 20", "Detectado");
-        } else {
-            telemetry.addData("Tag 20", "No detectado");
-        }
+
+//        AprilTagDetection id20 = aprilTag.getTagSpecific(20);
+//        telemetry.addData("id20 string", id20.toString());
+
 
         UpdateControllers();
         UpdateTelemetry();
 
 
-        if(gamepad1.right_bumper){double speedMultiplier= gamepad1.right_bumper ? 0.35 : 1.0; //esto sirve para poder reducir la velocidad
-            chassis.drive(x * speedMultiplier, y* speedMultiplier, turn * speedMultiplier, true);}
-        else{
-            chassis.drive(x,y,turn,true);
-
-        }
-
-
+//        if(gamepad1.right_bumper){double speedMultiplier= gamepad1.right_bumper ? 0.35 : 1.0; //esto sirve para poder reducir la velocidad
+//            chassis.drive(x * speedMultiplier, y* speedMultiplier, turn * speedMultiplier, true);}
+//        else{
+//            chassis.drive(x,y,turn,true);
+//
+//        }
 
 
 
 
 
-        if (gamepad1.a){ //cambio para poder escupir polen con b
-            intakeMotor.setPower(-1);
-        } else if(gamepad1.b) {
-            intakeMotor.setPower(1);
-        } else {
-            intakeMotor.Stop();
-        }
 
-        // Control del Shooter
-        if (gamepad1.right_trigger > 0.1) {
-            shooter.setPower(gamepad1.right_trigger);
-        } else if (gamepad1.x) {
-            shooter.shoot();
-        } else {
-            shooter.stop();
-        }
+
+//        if (gamepad1.a){ //cambio para poder escupir polen con b
+//            intakeMotor.setPower(-1);
+//        } else if(gamepad1.b) {
+//            intakeMotor.setPower(1);
+//        } else {
+//            intakeMotor.Stop();
+//        }
     }
 
     public void UpdateControllers(){
@@ -97,12 +77,5 @@ public class TeleOp extends OpMode {//...
         telemetry.update();
 
 
-    }
-
-    @Override
-    public void stop() {
-        if (aprilTagWebcam != null) {
-            aprilTagWebcam.stop();
-        }
     }
 }
