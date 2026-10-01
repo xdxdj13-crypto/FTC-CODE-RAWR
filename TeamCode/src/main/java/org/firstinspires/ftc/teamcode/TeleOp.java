@@ -31,19 +31,10 @@ public class TeleOp extends OpMode {
 
     @Override
     public void loop() {
-
-
+        UpdateControllers();
         aprilTag.cameraDetection();
         TelemetryWebCam();
-
-
-
-//        AprilTagDetection id20 = aprilTag.getTagSpecific(20);
-//        telemetry.addData("id20 string", id20.toString());
-
-
-        UpdateControllers();
-//        UpdateTelemetry();
+        UpdateTelemetry();
 
 
 //        if(gamepad1.right_bumper){double speedMultiplier= gamepad1.right_bumper ? 0.35 : 1.0; //esto sirve para poder reducir la velocidad
@@ -52,11 +43,6 @@ public class TeleOp extends OpMode {
 //            chassis.drive(x,y,turn,true);
 //
 //        }
-
-
-
-
-
 
 
 //        if (gamepad1.a){ //cambio para poder escupir polen con b
@@ -76,11 +62,12 @@ public class TeleOp extends OpMode {
 
     //Añadimos esta función para facilitar que la telemetria se actualice
     // y que sea más comprensible el código
-//    public void UpdateTelemetry(){
-//        telemetry.addData("Eje Y", y);
-//        telemetry.addData("Eje X", x);
-//        telemetry.addData("Giro", turn);
-//        telemetry.update();
+    public void UpdateTelemetry(){
+        telemetry.addData("Eje Y", y);
+        telemetry.addData("Eje X", x);
+        telemetry.addData("Giro", turn);
+        telemetry.update();
+    }
 
 
     public void TelemetryWebCam(){
@@ -89,7 +76,5 @@ public class TeleOp extends OpMode {
         telemetry.addData("Distance Y : ", AprilTag.y);
         telemetry.addData("Distance z: ", AprilTag.z);
     }
-//
-//
-//    }
+
 }
