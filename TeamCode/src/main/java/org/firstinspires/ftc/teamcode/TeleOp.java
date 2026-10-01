@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Camera.AprilTag;
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp", group = "TeleOp")
 public class TeleOp extends OpMode {
@@ -19,6 +22,7 @@ public class TeleOp extends OpMode {
 
 
 
+
 //        chassis = new Chassis(hardwareMap);
 //        intakeMotor = new IntakeMotor(hardwareMap);
         FtcDashboard.getInstance().startCameraStream(aprilTag.visionPortal, 0);
@@ -30,6 +34,8 @@ public class TeleOp extends OpMode {
 
 
         aprilTag.cameraDetection();
+        TelemetryWebCam();
+
 
 
 //        AprilTagDetection id20 = aprilTag.getTagSpecific(20);
@@ -37,7 +43,7 @@ public class TeleOp extends OpMode {
 
 
         UpdateControllers();
-        UpdateTelemetry();
+//        UpdateTelemetry();
 
 
 //        if(gamepad1.right_bumper){double speedMultiplier= gamepad1.right_bumper ? 0.35 : 1.0; //esto sirve para poder reducir la velocidad
@@ -70,12 +76,20 @@ public class TeleOp extends OpMode {
 
     //Añadimos esta función para facilitar que la telemetria se actualice
     // y que sea más comprensible el código
-    public void UpdateTelemetry(){
-        telemetry.addData("Eje Y", y);
-        telemetry.addData("Eje X", x);
-        telemetry.addData("Giro", turn);
-        telemetry.update();
+//    public void UpdateTelemetry(){
+//        telemetry.addData("Eje Y", y);
+//        telemetry.addData("Eje X", x);
+//        telemetry.addData("Giro", turn);
+//        telemetry.update();
 
 
+    public void TelemetryWebCam(){
+        telemetry.addData("FPS : ", aprilTag.visionPortal.getFps());
+        telemetry.addData("Distance X : ", AprilTag.x);
+        telemetry.addData("Distance Y : ", AprilTag.y);
+        telemetry.addData("Distance z: ", AprilTag.z);
     }
+//
+//
+//    }
 }

@@ -46,7 +46,7 @@ public class AprilTag {
         detectionProcessor = new AprilTagProcessor.Builder().
                 setCameraPose(positionCamera, orientationCamera)
                 .setTagFamily(AprilTagProcessor.TagFamily.TAG_36h11)
-                .setTagLibrary(AprilTagGameDatabase.getBioBuzzTagLibrary())
+                .setTagLibrary(AprilTagGameDatabase.getDecodeTagLibrary())
                 .setOutputUnits(DistanceUnit.CM, AngleUnit.DEGREES)
                 .build();
 
@@ -64,7 +64,7 @@ public class AprilTag {
             detection = false;
         } else {
             for (AprilTagDetection detection : detectionProcessor.getDetections()) {
-                AprilTagSingleDetection tag = (AprilTagSingleDetection) detection;
+               AprilTagSingleDetection tag = (AprilTagSingleDetection) detection;
                 id = tag.id;
 
                 x = detection.ftcPose.x;
