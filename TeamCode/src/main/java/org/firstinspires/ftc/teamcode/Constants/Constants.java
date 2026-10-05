@@ -1,7 +1,6 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Constants;
 
 import com.seattlesolvers.solverslib.geometry.Translation2d;
-import com.seattlesolvers.solverslib.kinematics.wpilibkinematics.MecanumDriveKinematics;
 
 public class  Constants {
     public static class MechanumConstants{

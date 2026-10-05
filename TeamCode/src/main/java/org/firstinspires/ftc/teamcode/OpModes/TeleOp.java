@@ -1,9 +1,7 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.OpModes;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Camera.AprilTag;
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp", group = "TeleOp")
 public class TeleOp extends OpMode {
@@ -75,6 +73,10 @@ public class TeleOp extends OpMode {
         telemetry.addData("Distance X : ", AprilTag.x);
         telemetry.addData("Distance Y : ", AprilTag.y);
         telemetry.addData("Distance z: ", AprilTag.z);
+//comepene nam nam q rico
+        telemetry.addData("Range :", AprilTag.range);
+        telemetry.addData("Bearing :", AprilTag.bearing);
+        telemetry.addData("Elevation :", AprilTag.elevation);
     }
 
 }

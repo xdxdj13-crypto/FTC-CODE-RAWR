@@ -10,7 +10,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
-import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
@@ -33,6 +32,10 @@ public class AprilTag {
     public static double range;
     public static double bearing;
     public static double elevation;
+    public static double xProof;
+    public static double yProof;
+    public static double zProof;
+    public static double yawProof;
 
     public final AtomicReference<Bitmap> lastFrame = new AtomicReference<>(
             Bitmap.createBitmap(1,1,Bitmap.Config.RGB_565));
