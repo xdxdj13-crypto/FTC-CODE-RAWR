@@ -100,19 +100,14 @@ public class AprilTag {
 
         long exposicion = 15;
         exposureControl.setExposure(exposicion, TimeUnit.MILLISECONDS);
-
-        // 3. Controlar brillo
         GainControl gainControl = visionPortal.getCameraControl(GainControl.class);
 
-        // Sube la ganancia si la imagen quedó muy oscura tras bajar la exposición
         int ganancia = 200;
         gainControl.setGain(ganancia);
 
-        // Controlar el Balance de Blancos (Temperatura de color)
         WhiteBalanceControl wbControl = visionPortal.getCameraControl(WhiteBalanceControl.class);
         wbControl.setMode(WhiteBalanceControl.Mode.MANUAL);
 
-        // Ajustar en Kelvin (Ej: 4000K para neutralizar luces amarillas de estadios)
         int temperaturaKelvin = 3700;
         wbControl.setWhiteBalanceTemperature(temperaturaKelvin);
 
