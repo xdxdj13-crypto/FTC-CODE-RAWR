@@ -1,11 +1,18 @@
 package org.firstinspires.ftc.teamcode.Camera;
 
+import static android.os.SystemClock.sleep;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
 import android.graphics.Bitmap;
 import android.util.Size;
 
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.WhiteBalanceControl;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
@@ -16,6 +23,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.apriltag.AprilTagSingleDetection;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class AprilTag {
@@ -85,6 +93,31 @@ public class AprilTag {
             detection = true;
         }
 
+    }
+    public void calibrarCamara() {
+        ExposureControl exposureControl = visionPortal.getCameraControl(ExposureControl.class);
+        exposureControl.setMode(ExposureControl.Mode.Manual);
+
+        long exposicion = 15;
+        exposureControl.setExposure(exposicion, TimeUnit.MILLISECONDS);
+
+        // 3. Controlar brillo
+        GainControl gainControl = visionPortal.getCameraControl(GainControl.class);
+
+        // Sube la ganancia si la imagen quedó muy oscura tras bajar la exposición
+        int ganancia = 200;
+        gainControl.setGain(ganancia);
+
+        // Controlar el Balance de Blancos (Temperatura de color)
+        WhiteBalanceControl wbControl = visionPortal.getCameraControl(WhiteBalanceControl.class);
+        wbControl.setMode(WhiteBalanceControl.Mode.MANUAL);
+
+        // Ajustar en Kelvin (Ej: 4000K para neutralizar luces amarillas de estadios)
+        int temperaturaKelvin = 3700;
+        wbControl.setWhiteBalanceTemperature(temperaturaKelvin);
+
+        telemetry.addData("Cámara", "Calibrada Exposición: %dms, Ganancia: %d", exposicion, ganancia);
+        telemetry.update();
     }
 
 }

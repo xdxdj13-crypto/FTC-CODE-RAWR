@@ -33,6 +33,7 @@ public class TeleOp extends OpMode {
         aprilTag.cameraDetection();
         TelemetryWebCam();
         UpdateTelemetry();
+        aprilTag.calibrarCamara();
 
 
 //        if(gamepad1.right_bumper){double speedMultiplier= gamepad1.right_bumper ? 0.35 : 1.0; //esto sirve para poder reducir la velocidad
@@ -61,10 +62,11 @@ public class TeleOp extends OpMode {
     //Añadimos esta función para facilitar que la telemetria se actualice
     // y que sea más comprensible el código
     public void UpdateTelemetry(){
+        telemetry.update();
         telemetry.addData("Eje Y", y);
         telemetry.addData("Eje X", x);
         telemetry.addData("Giro", turn);
-        telemetry.update();
+
     }
 
 
