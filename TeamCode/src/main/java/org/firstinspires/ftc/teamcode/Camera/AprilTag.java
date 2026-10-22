@@ -1,14 +1,10 @@
 package org.firstinspires.ftc.teamcode.Camera;
 
-import static android.os.SystemClock.sleep;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-
 import android.graphics.Bitmap;
 import android.util.Size;
-
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
@@ -22,7 +18,6 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.apriltag.AprilTagSingleDetection;
-
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -57,7 +52,7 @@ public class AprilTag {
         detectionProcessor = new AprilTagProcessor.Builder().
                 setCameraPose(positionCamera, orientationCamera)
                 .setTagFamily(AprilTagProcessor.TagFamily.TAG_36h11)
-                .setTagLibrary(AprilTagGameDatabase.getDecodeTagLibrary())
+                .setTagLibrary(AprilTagGameDatabase.getBioBuzzTagLibrary())
                 .setOutputUnits(DistanceUnit.CM, AngleUnit.DEGREES)
                 .build();
 
@@ -69,15 +64,16 @@ public class AprilTag {
                 .setAutoStartStreamOnBuild(true)
                 .build();
 
+                FtcDashboard.getInstance().startCameraStream(visionPortal,30);
+
         }
     public void cameraDetection() {
         if (detectionProcessor.getDetections().isEmpty()) {
             detection = false;
         } else {
             for (AprilTagDetection detection : detectionProcessor.getDetections()) {
-               AprilTagSingleDetection tag = (AprilTagSingleDetection) detection;
-                id = tag.id;
-
+//               AprilTagSingleDetection tag = (AprilTagSingleDetection) detection;
+//                id = tag.id;
                 x = detection.ftcPose.x;
                 y = detection.ftcPose.y;
                 z = detection.ftcPose.z;
@@ -111,8 +107,16 @@ public class AprilTag {
         int temperaturaKelvin = 3700;
         wbControl.setWhiteBalanceTemperature(temperaturaKelvin);
 
-        telemetry.addData("Cámara", "Calibrada Exposición: %dms, Ganancia: %d", exposicion, ganancia);
-        telemetry.update();
+    }
+
+    public class Pose2d {
+        public double x;
+        public double y;
+        public double heading;
+
+        public Pose2d(double x, double y, double heading){
+
+        }
     }
 
 }
