@@ -11,8 +11,8 @@ public class Chassis {
     Motor rearRight;
     Motor frontLeft;
     Motor frontRight;
-    IMU imu;
     MecanumDrive mecanum;
+    double x, y, turn;
     public Chassis(HardwareMap hardwareMap) {
 
         frontLeft = new Motor(hardwareMap, "frontLeft");
@@ -25,6 +25,7 @@ public class Chassis {
         rearLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
 
         mecanum = new MecanumDrive(false, frontRight,frontLeft,rearRight,rearLeft);
+        mecanum.driveRobotCentric(x, y, turn);
 
         frontRight.setInverted(false);
         rearRight.setInverted(false);
@@ -32,18 +33,18 @@ public class Chassis {
         frontLeft.setInverted(true);
         rearLeft.setInverted(true);
 
-        imu = hardwareMap.get(IMU.class, "imu");
-
-        IMU.Parameters imuparameters = new IMU.Parameters(new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP, RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
-
-        imu.initialize(imuparameters);
-        imu.resetYaw();
+//        imu = hardwareMap.get(IMU.class, "imu");
+//
+//        IMU.Parameters imuparameters = new IMU.Parameters(new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP, RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
+//
+//        imu.initialize(imuparameters);
+//        imu.resetYaw();
 
 
     }
+    public void mover(double x, double y, double turn){
+        mecanum.driveRobotCentric(x,y,turn);
 
-    public void drive(double x, double y, double turn){
-        mecanum.driveRobotCentric(x, y, turn);
     }
 
     public void auto(){

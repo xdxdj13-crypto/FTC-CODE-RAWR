@@ -4,6 +4,7 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.tel
 import android.graphics.Bitmap;
 import android.util.Size;
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
@@ -35,10 +36,6 @@ public class AprilTag {
     public static double range;
     public static double bearing;
     public static double elevation;
-    public static double xProof;
-    public static double yProof;
-    public static double zProof;
-    public static double yawProof;
 
     public final AtomicReference<Bitmap> lastFrame = new AtomicReference<>(
             Bitmap.createBitmap(1,1,Bitmap.Config.RGB_565));
@@ -57,7 +54,7 @@ public class AprilTag {
                 .build();
 
         visionPortal = new VisionPortal.Builder()
-                .setCamera(hardwareMap.get(WebcamName.class, "WebCam"))
+                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
                 .addProcessor(detectionProcessor)
                 .setCameraResolution(new Size(640,480))
                 .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
@@ -107,16 +104,6 @@ public class AprilTag {
         int temperaturaKelvin = 3700;
         wbControl.setWhiteBalanceTemperature(temperaturaKelvin);
 
-    }
-
-    public class Pose2d {
-        public double x;
-        public double y;
-        public double heading;
-
-        public Pose2d(double x, double y, double heading){
-
-        }
     }
 
 }

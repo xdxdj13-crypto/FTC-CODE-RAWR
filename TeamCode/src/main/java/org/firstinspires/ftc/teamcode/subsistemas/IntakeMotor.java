@@ -9,7 +9,7 @@ public class IntakeMotor {
     public IntakeMotor(HardwareMap hardwareMap){//..
 
         intakeMotor = new Motor(hardwareMap, "IntakeMotor");
-        intakeMotor.setInverted(true);
+        intakeMotor.setInverted(false);
         intakeMotor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
 
     }
