@@ -47,6 +47,13 @@ public class Chassis {
 
     }
 
+    public void slowMode(double x, double y, double turn){
+        x = x * .3;
+        y = y * .3;
+        turn = turn * .3;
+        mecanum.driveRobotCentric(x,y,turn);
+    }
+
     public void auto(){
         frontLeft.set(.5);
         frontRight.set(.5);

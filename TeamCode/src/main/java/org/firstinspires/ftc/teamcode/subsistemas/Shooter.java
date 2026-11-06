@@ -9,7 +9,7 @@ public class Shooter {
     public Shooter(HardwareMap hardwareMap) {
         shooterMotor = new Motor(hardwareMap, "ShooterMotor");
         shooterMotor.setInverted(false);
-        shooterMotor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        shooterMotor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
     }
 
     public void setPower(double power) {
