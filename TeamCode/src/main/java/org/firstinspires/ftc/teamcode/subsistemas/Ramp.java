@@ -1,29 +1,39 @@
 package org.firstinspires.ftc.teamcode.subsistemas;
-
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.seattlesolvers.solverslib.hardware.servos.ServoEx;
-import com.seattlesolvers.solverslib.hardware.servos.ServoExGroup;
+import dev.easyfamily.EasyStack.hardware.Servo.EasyServo;
+import dev.easyfamily.EasyStack.hardware.Servo.EasyServoGroup;
+import dev.easyfamily.EasyStack.subsytem.EasySubsystemBase;
 
-public class Ramp {
-    private ServoEx leader;
-    ServoEx ramp;
+public class Ramp extends EasySubsystemBase {
+    EasyServo left;
+    EasyServo right;
+    EasyServoGroup dualRamp;
+    @Override
+    public void init(HardwareMap hardwareMap) {
 
-    private ServoEx follower1;
-    ServoEx ramp2;
-    ServoExGroup myServos;
+        left = new EasyServo(hardwareMap,"left");
+        right = new EasyServo(hardwareMap,"right").reverse();
 
-    public Ramp(HardwareMap hardwareMap) {
-        ramp = new ServoEx(hardwareMap, "izquierda", 0, 165);
-        ramp2 = new ServoEx(hardwareMap, "derecha", 0, 165);
-        ramp2.setInverted(true);
-        leader = ramp;
-        follower1 = ramp2;
-        ramp2 =
-        myServos = new ServoExGroup(leader, follower1);
+        dualRamp = new EasyServoGroup(right,left)
+                .setLimits(0,165);
     }
 
-    public void setAngle(double angle) {
-        myServos.set(angle);
+    public void states(String name){
+        dualRamp.addState("down",165)
+                .addState("up",0);
+
+        if(name == "down"){
+            dualRamp.setState("down");
+        } else{
+            dualRamp.setState("up");
+        }
     }
+
+    public void setAngle(double angle){
+        dualRamp.setAngle(angle);
+    }
+
+
+
 
 }
