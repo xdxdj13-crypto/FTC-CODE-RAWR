@@ -17,5 +17,5 @@ dependencies {
 
     implementation 'com.acmerobotics.dashboard:dashboard:0.6.0'
 
-    implementation 'io.github.ferreirovskizz:wintechlib:1.2.0'
+    implementation 'io.github.ferreirovskizz:wintechlib:1.2.1'
 }

@@ -1,17 +1,15 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 import static org.firstinspires.ftc.teamcode.Camera.AprilTag.range;
-
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-
 import org.firstinspires.ftc.teamcode.Camera.AprilTag;
-import org.firstinspires.ftc.teamcode.subsistemas.Chassis;
 import org.firstinspires.ftc.teamcode.subsistemas.Intake;
 import org.firstinspires.ftc.teamcode.subsistemas.MecanumLib;
 import org.firstinspires.ftc.teamcode.subsistemas.Ramp;
-import org.firstinspires.ftc.teamcode.subsistemas.Rampa;
 import org.firstinspires.ftc.teamcode.subsistemas.ShooterLib;
+
+import dev.easyfamily.EasyStack.license.EasyLicense;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp", group = "TeleOp")
 public class TeleOp extends OpMode {
@@ -37,6 +35,7 @@ public class TeleOp extends OpMode {
 
     @Override
     public void init() {
+        EasyLicense.setKey("ES1-eyJ2IjoxLCJ0ZWFtIjoyNDI0MSwiaWF0IjoxNzk1MTEwNzg5LCJleHAiOjE4MDI4ODY3ODl9.MEYCIQDbro42jV26ZjD68RSPc9hA4kh5ELz1mLK_JGnxRs6iqQIhAKFADfJi_S3lKgBo7b82QTyaW3wLPvy-LfcYvM2V2-tO");
 
 //        aprilTag = new AprilTag(hardwareMap);
 //        FtcDashboard.getInstance().startCameraStream(aprilTag.visionPortal, 30);

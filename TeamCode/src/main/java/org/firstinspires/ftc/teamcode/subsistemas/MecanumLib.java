@@ -41,7 +41,7 @@ public class MecanumLib extends EasySubsystemBase {
         if(fieldCentric){
             mechanum.driveFieldCentric(x,y,turn,headingRadians,true);
         }else {
-            mechanum.driveRobotCentric(RB1 ? x * .3 : x,RB1 ? y * .3 : turn ,RB1 ? turn : turn,true);
+            mechanum.driveRobotCentric(RB1 ? x * .3 : x,RB1 ? y * .3 : turn ,RB1 ? turn * .3 : turn,true);
         }
     }
 

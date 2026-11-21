@@ -4,14 +4,14 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.subsistemas.Chassis;
+import org.firstinspires.ftc.teamcode.subsistemas.MecanumLib;
 
 @Autonomous(name = "Auto", group = "red")
 public class Auto extends LinearOpMode {
-    Chassis chassis;
+    MecanumLib chassis;
     ElapsedTime timer;
     public void runOpMode() throws InterruptedException{
-        chassis = new Chassis(hardwareMap);
+        chassis = new MecanumLib();
         timer=new ElapsedTime();
 
 
