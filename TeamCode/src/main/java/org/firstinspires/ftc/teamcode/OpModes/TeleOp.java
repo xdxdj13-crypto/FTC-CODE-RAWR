@@ -77,11 +77,6 @@ public class TeleOp extends OpMode {
 
         shooter.setPower(shooting);
 
-
-       if(b){
-           shooter.shoot();
-       }
-
 //        shooter.setPower(shoot);
 
         if(a){
@@ -108,7 +103,6 @@ public class TeleOp extends OpMode {
                 .fillRect(-AprilTag.x, AprilTag.y, 18,20);
 
         ftcDashboard.sendTelemetryPacket(packet);
-
 
 
 //        if (gamepad1.y) {

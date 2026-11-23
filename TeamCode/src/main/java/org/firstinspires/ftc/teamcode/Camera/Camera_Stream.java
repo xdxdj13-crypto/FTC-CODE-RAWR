@@ -24,7 +24,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagSingleDetection;
 import org.opencv.core.Mat;
 
 import java.util.concurrent.atomic.AtomicReference;
-
+//Codigo memis
 public class Camera_Stream implements VisionProcessor, CameraStreamSource {
     public AprilTagProcessor detectionProcessor;
     public VisionPortal visionPortal;

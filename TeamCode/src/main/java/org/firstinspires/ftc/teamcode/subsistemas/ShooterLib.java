@@ -6,8 +6,14 @@ import static org.firstinspires.ftc.teamcode.Constants.Constants.ShooterConstant
 import static org.firstinspires.ftc.teamcode.Constants.Constants.ShooterConstants.KV;
 import static org.firstinspires.ftc.teamcode.Constants.Constants.ShooterConstants.targetRPM;
 
+import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.teamcode.Camera.Pose2;
+import org.firstinspires.ftc.teamcode.Constants.Constants;
 
 import dev.easyfamily.EasyStack.control.EasyPIDFCoefficients;
 import dev.easyfamily.EasyStack.control.EasyPIDFController;
@@ -24,6 +30,8 @@ public class ShooterLib extends EasySubsystemBase {
     double derivative = coefficients.kD;
     double feedforward = coefficients.kF;
     EasyInterpLUT interpLUT;
+    Pose2 pose2;
+    Constants constants;
 
 
     @Override
@@ -80,23 +88,33 @@ public class ShooterLib extends EasySubsystemBase {
         rightShooter.setPower(-0.8);
     }
 
+    public void ShootT(Pose2D distance){
+        double hypot = Math.hypot(distance.getX(DistanceUnit.INCH),distance.getY(DistanceUnit.INCH));
+        rightShooter.setRPM(interpLUT.get(hypot));
+    }
+
+
     public void stop(){
         //leftShooter.setPower(0);
         rightShooter.setPower(0);
     }
 
-//    public void Interplut(){
-//        interpLUT.add(0,0);
-//        interpLUT.add(0,0);
-//        interpLUT.add(0,0);
-//        interpLUT.add(0,0);
-//        interpLUT.createLUT();
+//    public void angleShooting(){
+//        double angle = Math.
+//    }
+
+    public void Interplut(){
+        interpLUT.add(0,0);
+        interpLUT.add(0,0);
+        interpLUT.add(0,0);
+        interpLUT.add(0,0);
+        interpLUT.createLUT();
 
 
-    public void telemetry(){
-        telemetry.addData("kP",coefficients.kP);
-        telemetry.addData("kI",coefficients.kI);
-        telemetry.addData("kD",coefficients.kD);
-        telemetry.addData("kF",coefficients.kF);
+//    public void telemetry(){
+//        telemetry.addData("kP",coefficients.kP);
+//        telemetry.addData("kI",coefficients.kI);
+//        telemetry.addData("kD",coefficients.kD);
+//        telemetry.addData("kF",coefficients.kF);
     }
 }
